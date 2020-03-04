@@ -1,0 +1,85 @@
+<div ng-include="url_navbar"></div>
+<div class="container-fluid">
+<div class = "row">
+	<div class="col-md-3">
+		<h5>Recherche selon la catégorie de propriétaire</h5>
+		<select ng-model="type">
+			<option value="PUBLIC">Public</option>
+			<option value="PRIVATE">Privée</option>
+		</select>
+		<button class="btn btn-default" ng-click="showCategories()">Rechercher</button>
+	</div>	
+	<div class="col-md-8">
+		<h5>Recherche selon la surface des terrains(en m²)</h5>
+			<label>Surface minimale</label>
+			<input type="text" ng-model="minValue">
+			<label>Surface maximale</label>
+			<input type="text" ng-model="maxValue">
+		<button class="btn btn-default" ng-click ="surfaceSearch()">Rechercher</button>
+	</div>	
+	<div class="col-md-1">
+		<button class="btn btn-default" ng-click ="playHistory()">Play history</button>
+	</div>
+</div>
+<div class="row">
+	<div class="col-md-7" style="height:80%; margin-left:2%" id = "map"></div>
+	<div class="col-md-4">
+		
+		<div>
+		<h4><u>Options de la carte</u></h4>
+		<div>
+			<label>Rayon</label>
+			<input type="text" ng-model="rayon">
+			<button class="btn btn-primary" ng-click="evaluate()">Evaluer</button>
+			<h5>Evaluation prix % surface et emplacement du terrain séléctionné(~terrain à enregistrer)</h5>
+			<strong>{{errorCarte}}</strong></br>
+			<strong>{{prixEvaluation | number:2}} Ariary</strong>
+		</div>
+		<div>
+			<label>Proprietaire</label>
+			<select ng-model="proprio">
+				<option ng-repeat = "personne in listeProprio" value = "{{personne.idproprietaire}}">
+					{{personne.nom + "-" + personne.categorie}}
+				</option>
+			</select>
+			</br>
+			<label>Année</label>
+			<input type = "text" ng-model="annee">
+			<button class="btn btn-success" ng-click="register()">Enregistrer la sélection</button>
+		</div>	
+		
+		<div>
+			<h5><strong>{{erreurPolygone}} </strong></h5>
+			<button class="btn btn-warning" ng-click="annuler()">Annuler et ne pas enregistrer la sélection</button>
+		</div>
+		<button class="btn btn-primary" ng-click="divide()">Diviser</button>
+		<button class="btn btn-default" ng-click="reload()">Réinitialiser la carte</button>
+		</br>
+		<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Proprietaire</th>
+				<th>Catégorie</th>
+				<th>Surface</th>
+				<th>Annee</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat = "item in listeTerrains">
+				<td>{{item.nom}}</td>
+				<td>{{item.categorie}}</td>
+				<td>{{item.surfacepolygon}}</td>
+				<td>{{item.annee}}</td>
+			</tr>
+		</tbody>
+		
+		</table>
+		<div>
+			<h5>Somme des prix des terrains affichés : {{somme | number}} </h5>
+			<h5>Moyenne des prix des terrains affichés : {{moyenne | number}} </h5>
+		</div>
+		</div>
+	</div>
+</div>
+</div>
+
